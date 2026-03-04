@@ -10,5 +10,6 @@
       "onAutoForward": "openBrowser"
     }
   },
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y mysql-client postgresql-client curl unzip"
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y mysql-client postgresql-client curl unzip",
+  "postStartCommand": "bash scripts/ensure_sakila.sh"
 }
