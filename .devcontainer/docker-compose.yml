@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   app:
@@ -7,14 +7,15 @@ services:
     volumes:
       - ..:/workspaces:cached
     depends_on:
-      - db
+      - mysql
+      - postgres
 
-  db:
+  mysql:
     image: mysql:8.0
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: testdb
+      MYSQL_DATABASE: sakila
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
@@ -22,5 +23,27 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: chinook
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    depends_on:
+      - mysql
+      - postgres
+    ports:
+      - "8080:8080"
+
 volumes:
   mysql-data:
+  pg-data:
