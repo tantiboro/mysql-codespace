@@ -8,8 +8,32 @@
     "8080": {
       "label": "Adminer (DB Web UI)",
       "onAutoForward": "openBrowser"
+    },
+    "3306": {
+      "label": "MySQL"
+    },
+    "5432": {
+      "label": "PostgreSQL"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-mysql",
+        "cweijan.vscode-mysql-client2",
+        "ms-ossdata.vscode-postgresql",
+        "eamodio.gitlens",
+        "yzhang.markdown-all-in-one"
+      ],
+      "settings": {
+        "sqltools.useNodeRuntime": true,
+        "files.trimTrailingWhitespace": true,
+        "editor.formatOnSave": true
+      }
     }
   },
   "postCreateCommand": "sudo apt-get update && sudo apt-get install -y mysql-client postgresql-client curl unzip",
-  "postStartCommand": "bash scripts/ensure_sakila.sh"
+  "postStartCommand": "bash scripts/ensure_sakila.sh",
+  "remoteUser": "vscode"
 }
