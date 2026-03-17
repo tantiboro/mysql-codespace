@@ -3,7 +3,11 @@
   "dockerComposeFile": "docker-compose.yml",
   "service": "app",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  "forwardPorts": [3306, 5432, 8080],
+  "forwardPorts": [
+    3306,
+    5432,
+    8080
+  ],
   "portsAttributes": {
     "8080": {
       "label": "Adminer (DB Web UI)",
@@ -33,7 +37,7 @@
       }
     }
   },
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y mysql-client postgresql-client curl unzip",
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y mysql-client postgresql-client curl unzip nodejs npm",
   "postStartCommand": "bash scripts/ensure_sakila.sh",
   "remoteUser": "vscode"
 }
