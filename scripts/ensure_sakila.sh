@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-HOST="db"
+HOST="mysql"
 USER="root"
-PASSWORD="&Siendou2011"
+PASSWORD="root"
 DB="sakila"
+
+SCHEMA_FILE="datasets/sakila/sakila-schema.sql"
+DATA_FILE="datasets/sakila/sakila-data.sql"
 
 echo "Waiting for MySQL to be ready..."
 until mysqladmin ping -h"$HOST" -u"$USER" -p"$PASSWORD" --silent; do
@@ -13,21 +16,21 @@ done
 
 echo "MySQL is ready."
 
-SCHEMA_FILE="datasets/sakila-schema.sql"
-DATA_FILE="datasets/sakila-data.sql"
-
 if [ ! -f "$SCHEMA_FILE" ] || [ ! -f "$DATA_FILE" ]; then
-  echo "Sakila files not found in datasets/."
-  echo "Please add:"
-  echo "  datasets/sakila-schema.sql"
-  echo "  datasets/sakila-data.sql"
-  exit 0
+  echo "Sakila files not found."
+  echo "Expected:"
+  echo "  $SCHEMA_FILE"
+  echo "  $DATA_FILE"
+  exit 1
 fi
 
-TABLE_COUNT=$(mysql -h"$HOST" -u"$USER" -p"$PASSWORD" -Nse \
-  "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='${DB}';")
+TABLE_EXISTS=$(mysql -h"$HOST" -u"$USER" -p"$PASSWORD" -Nse \
+  "SELECT COUNT(*)
+   FROM information_schema.tables
+   WHERE table_schema='${DB}'
+     AND table_name='actor';")
 
-if [ "$TABLE_COUNT" -gt 0 ]; then
+if [ "$TABLE_EXISTS" -gt 0 ]; then
   echo "Sakila already loaded."
   exit 0
 fi
