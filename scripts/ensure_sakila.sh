@@ -3,7 +3,7 @@ set -e
 
 HOST="db"
 USER="root"
-PASSWORD="root&Siendou2011"
+PASSWORD="&Siendou2011"
 DB="sakila"
 
 echo "Waiting for MySQL to be ready..."
